@@ -21,7 +21,7 @@ jobs:
       - name: 'Authenticate Org'
         run: |
           sf org login jwt \
-            --client-id ${{ secrets.SFDX_CONSUMER_KEY }} \
+            --client-id ${{ secrets.CONSUMER_KEY }} \
             --jwt-key-file server.key \
             --username ${{ secrets.SFDX_HUB_USERNAME }} \
             --instance-url https://login.salesforce.com
