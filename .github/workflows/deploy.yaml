@@ -1,0 +1,30 @@
+name: Salesforce Deploy
+on:
+  push:
+    branches: [main] # O deploy roda quando você envia para a branch main
+
+jobs:
+  deploy-to-org:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout source code"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: "Install Salesforce CLI"
+        run: npm install @salesforce/cli --global
+
+      - name: "Create server.key file"
+        run: echo "${{ secrets.SFDX_JWT_KEY }}" > server.key
+
+      - name: "Authenticate Org"
+        run: |
+          sf org login jwt \
+            --client-id ${{ secrets.SFDX_CONSUMER_KEY }} \
+            --jwt-key-file server.key \
+            --username ${{ secrets.SFDX_HUB_USERNAME }} \
+            --instance-url https://login.salesforce.com
+
+      - name: "Deploy source"
+        run: sf project deploy start --target-org ${{ secrets.SFDX_HUB_USERNAME }} --wait 30
