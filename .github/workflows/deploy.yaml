@@ -30,6 +30,6 @@ jobs:
         working-directory: ./pipeline_ci-cd
         run: |
           sf project deploy start \
-            --source-dir force-app \
+            --source-dir ./pipeline_ci-cd/force-app \
             --target-org ${{ secrets.SFDX_HUB_USERNAME }} \
             --wait 30
