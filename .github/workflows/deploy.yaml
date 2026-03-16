@@ -27,4 +27,9 @@ jobs:
             --instance-url https://login.salesforce.com
 
       - name: "Deploy source"
-        run: sf project deploy start --target-org ${{ secrets.SFDX_HUB_USERNAME }} --wait 30
+        working-directory: ./pipeline_ci-cd
+        run: |
+          sf project deploy start \
+            --source-dir force-app \
+            --target-org ${{ secrets.SFDX_HUB_USERNAME }} \
+            --wait 30
